@@ -48,7 +48,8 @@ void a_star_loop(maze_t maze, list_t *open_list)
 {
 	list_t *open = NULL;
 
-	while (!maze.map[maze.height - 1][maze.width - 1].close) {
+	while (!maze.map[maze.height - 1][maze.width - 2].close
+	&& !maze.map[maze.height - 2][maze.width - 1].close) {
 		open = find_smallest_open(open_list, maze);
 		if (!open)
 			break;
@@ -56,4 +57,10 @@ void a_star_loop(maze_t maze, list_t *open_list)
 		maze.map[open->pos.x][open->pos.y].close = true;
 		remove_node(&open_list, open->pos);
 	}
+	if (!maze.map[maze.height - 1][maze.width - 2].close
+	&& !maze.map[maze.height - 2][maze.width - 1].close) {
+		printf("no solution found");
+		exit(0);
+	}
+	maze.map[maze.height - 1][maze.width - 1].close = true;
 }

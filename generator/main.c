@@ -19,144 +19,8 @@ void maze_init(char *maze, size_t col, size_t row)
 
 void maze_display(char *maze)
 {
-	my_printf("maze : \n\n%s\n", maze);
+	my_putstr(maze);
 }
-/* 
-int check_inside_maze(int direction, int col, int row)
-{
-	if (direction < 0 || direction > (col + 1) * row - 2)
-		return (1);
-	return (0);
-}
-
-int check_valid_path(char *maze, int direction, size_t col, size_t row)
-{
-	int ret = 0;
-
-	if (check_inside_maze(direction, col, row) != 0)
-		return (1);
-	if (maze[direction] != 'X')
-		return (1);
-	if (check_inside_maze(direction - col - 1, col, row) == 0)
-		if (maze[direction - col - 1] == '*')
-			ret++;
-	if (check_inside_maze(direction + col + 1, col, row) == 0)
-		if (maze[direction + col + 1] == '*')
-			ret++;
-	if (check_inside_maze(direction - 1, col, row) == 0)
-		if (maze[direction - 1] == '*')
-			ret++;
-	if (check_inside_maze(direction + 1, col, row) == 0)
-		if (maze[direction + 1] == '*')
-			ret++;
-	if (ret != 1)
-		return (1);
-	return (0);
-}
-
-int get_previous_pos(char *maze, int pos, int col, int row)
-{
-	int direction = rand() % 4;
-	int next = 0;
-
-	switch (direction) {
-		case NORTH:
-		my_printf("NORTH\n");
-		next = pos - col - 1;
-		break;
-		case SOUTH:
-		my_printf("SOUTH\n");
-		next = pos + col + 1;
-		break;
-		case EAST:
-		my_printf("EAST\n");
-		next = pos + 1;
-		break;
-		case WEST:
-		my_printf("WEST\n");
-		next = pos - 1;
-		break;
-	}
-	if (check_inside_maze(next, col, row) == 0)
-		if (maze[next] == '*')
-			return (next);
-	return (0);
-}
-
-void reset_try(int try[4])
-{
-	try[0] = 0;
-	try[1] = 0;
-	try[2] = 0;
-	try[3] = 0;
-}
-
-int check_end(char *maze, int pos, int col, int row)
-{
-	if (check_inside_maze(pos, col, row) == 0)
-		if (maze[pos] == 'E')
-			return (1);
-	if (check_inside_maze(pos - col - 1, col, row) == 0)
-		if (maze[pos - col - 1] == 'E')
-			return (1);
-	if (check_inside_maze(pos + col + 1, col, row) == 0)
-		if (maze[pos + col + 1] == 'E')
-			return (1);
-	if (check_inside_maze(pos + 1, col, row) == 0)
-		if (maze[pos + 1] == 'E')
-			return (1);
-	if (check_inside_maze(pos - 1, col, row) == 0)
-		if (maze[pos - 1] == 'E')
-			return (1); 
-	return (0);
-}
-
-void maze_dig(char *maze, size_t col, size_t row)
-{
-	static int pos = 0;
-	static int test = 0;
-	static int try[4] = {0, 0, 0, 0};
-	int direction = rand() % 4;
-	int next = 0;
-
-	if (check_end(maze, pos, col, row) == 1) {
-		maze_display(maze);
-		exit (0);
-	}
-	maze[pos] = '*';
-	if (try[0] == 1 && try[1] == 1 && try[2] == 1 && try[3] == 1) {
-		reset_try(try);
-		pos = get_previous_pos(maze, pos, col, row);
-	}
-	maze_display(maze);
-	switch (direction) {
-		case NORTH:
-		next = pos - col - 1;
-		try[0] = 1;
-		break;
-		case SOUTH:
-		next = pos + col + 1;
-		try[1] = 1;
-		break;
-		case EAST:
-		next = pos + 1;
-		try[2] = 1;
-		break;
-		case WEST:
-		next = pos - 1;
-		try[3] = 1;
-		break;
-	}
-	if (check_valid_path(maze, next, col, row) == 1) {
-		my_printf("dig\n");
-		maze_dig(maze, col, row);
-	} else {
-		reset_try(try);
-		maze[next] = '*';
-		pos = next;
-		maze_dig(maze, col, row);
-	}
-} */
 
 #define NORTH(x) (x - col - 1)
 #define SOUTH(x) (x + col + 1)
@@ -296,7 +160,7 @@ void maze_dig(char *maze, size_t col, size_t row)
 	maze[pos] = '*';
 	//maze_display(maze);
 	if (check_end(pos, col, row) == 0) {
-		maze[(col + 1) * row - 2] = 'E';
+		maze[(col + 1) * row - 2] = '*';
 		maze_display(maze);
 		exit (0);
 	}

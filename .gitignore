@@ -1,0 +1,5 @@
+*.o
+building_gene
+solver/generator
+solver/maps
+*.vscode

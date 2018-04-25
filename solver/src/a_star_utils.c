@@ -41,4 +41,11 @@ void set_maze_path(char **map, maze_t maze)
 		map[pos.x][pos.y] = 'o';
 		pos = maze.map[pos.x][pos.y].parent;
 	}
+	for (int i = 0; map[i]; i++)
+		for (int j = 0; map[i][j]; j++) {
+			if (map[i][j] == '*')
+				map[i][j] = ' ';
+			else if (map[i][j] == 'X')
+				map[i][j] = '.';
+		}
 }
