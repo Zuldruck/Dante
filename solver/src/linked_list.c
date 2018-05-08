@@ -7,52 +7,41 @@
 
 #include "dante.h"
 
-void add_node(list_t **list, pos_t pos)
+void add_node(maze_t *maze, list_t **list, list_t *tab, int pos)
 {
-	list_t *tmp = malloc(sizeof(*tmp));
+	list_t *tmp_node = NULL;
+	list_t *tmp = *list;
 
-	tmp->pos = pos;
-	tmp->next = NULL;
+	tmp_node = &tab[pos];
+	tmp_node->pos = pos;
+	tmp_node->next = NULL;
 	if (!*list) {
-		*list = tmp;
+		*list = tmp_node;
+		return;
+	} else if (maze->map[pos].f_cost <= maze->map[tmp->pos].f_cost) {
+		tmp_node->next = tmp;
+		*list = tmp_node;
 		return;
 	}
-	while ((*list)->next != NULL)
-		*list = (*list)->next;
-	(*list)->next = tmp;
-}
-
-int check_first_node(list_t **list, pos_t pos_to_remove)
-{
-	list_t *tmp = NULL;
-
-	if ((*list)->pos.x == pos_to_remove.x
-	&& (*list)->pos.y == pos_to_remove.y) {
-		tmp = *list;
-		*list = (*list)->next;
-		free(tmp);
-		return (1);
+	while (tmp->next != NULL
+	&& maze->map[pos].f_cost > maze->map[tmp->next->pos].f_cost) {
+		tmp = tmp->next;
 	}
-	return (0);
+	tmp_node->next = tmp->next;
+	tmp->next = tmp_node;
 }
 
-void remove_node(list_t **list, pos_t pos_to_remove)
+void remove_node(list_t **list, int pos)
 {
 	list_t *tmp = *list;
-	list_t *tmp_free = NULL;
 
 	if (!*list)
 		return;
-	if (check_first_node(list, pos_to_remove) == 1)
+	if ((*list)->pos == pos) {
+		*list = (*list)->next;
 		return;
-	while (tmp && tmp->next) {
-		if (tmp->next->pos.x == pos_to_remove.x
-		&& tmp->next->pos.y == pos_to_remove.y) {
-			tmp_free = tmp->next;
-			tmp->next = tmp->next->next;
-			free(tmp_free);
-			return;
-		}
-		tmp = tmp->next;
 	}
+	while (tmp->next->pos != pos)
+		tmp = tmp->next;
+	tmp->next = tmp->next->next;
 }

@@ -11,35 +11,30 @@ tile_t fill_tile_info(char c)
 {
 	tile_t tile;
 
-	if (c == 'X')
+	if (c == 'X' || c == '\n')
 		tile.blocked = 1;
 	else
 		tile.blocked = 0;
+	if (c == '\n')
+		tile.limit = true;
+	else
+		tile.limit = false;
 	tile.close = 0;
 	tile.open = 0;
 	tile.g_cost = -1;
 	tile.h_cost = -1;
 	tile.f_cost = -1;
-	tile.parent = (pos_t){0, 0};
+	tile.parent = 0;
 	return (tile);
 }
 
-maze_t map_to_maze(char **map)
+tile_t *map_to_maze(char *map, int size)
 {
 	int i = 0;
-	tile_t **maze = NULL;
-	maze_t maze_info;
+	tile_t *maze = NULL;
 
-	for (i = 0; map[i]; i++);
-	maze = malloc(sizeof(*maze) * (i + 1));
-	maze_info.height = i;
-	maze_info.width = strlen(map[0]);
-	for (i = 0; map[i]; i++) {
-		maze[i] = malloc(sizeof(tile_t) * (strlen(map[i])));
-		for (int j = 0; map[i][j]; j++)
-			maze[i][j] = fill_tile_info(map[i][j]);
-	}
-	maze[i] = NULL;
-	maze_info.map = maze;
-	return (maze_info);
+	maze = malloc(sizeof(*maze) * size);
+	for (i = 0; map[i]; i++)
+		maze[i] = fill_tile_info(map[i]);
+	return (maze);
 }
