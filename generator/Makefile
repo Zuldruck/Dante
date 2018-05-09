@@ -1,44 +1,61 @@
 ##
-## EPITECH PROJECT, 2018
-## minishell1
-## File description:
+## EPITECH PROJECT, 2017
 ## Makefile
+## File description:
+## all clean fclean re
 ##
 
-CC		=	gcc
-
-WFLAGS		=	-Wextra -W -Wall -Wparentheses -Wsign-compare -Wpointer-sign -Wuninitialized -Wunused-but-set-variable
-
-CFLAGS		=	-I./include -L./lib/my/ -lmy -g3
-
-RM	=	rm -rf
-
-SRC	=	main.c	\
+SRC	=	src/main.c						\
 
 OBJS	=	$(SRC:.c=.o)
 
+NAME_BINARY	=	generator
+
 NAME	=	generator
 
-all: prepare_lib $(NAME)
+NAME2	=	unit-tests
+
+CFLAGS	=	 -Wall -Wextra -W -g3 -I./include/
+
+LDFLAGS	=	-L./lib/llist/ -lllist -L./lib/my/ -lmy -lm
+
+CC	=	gcc
+
+_END=$'\x1b[0m'
+_RED=$'\x1b[31m'
+NO_OF_FILES := $(words $(SRC))
+
+all:	prepare_lib $(NAME)
 
 prepare_lib:
-	make -C lib/my
+	make -C lib/
 
-tests_run: prepare_lib
+tests_run:	prepare_lib
 	make -C tests/
 	tests/unit-tests
 
+
 $(NAME):	$(OBJS)
-	$(CC) -o $(NAME) $(OBJS) $(WFLAGS) $(CFLAGS)
+	@ echo "\033[1;36m[ FILES COMPILED ] \033[0m \033[1;35m$(NO_OF_FILES)\033[0m"
+	$(CC) -o $(NAME) $(OBJS) $(LDFLAGS) $(CFLAGS)
+	@ echo "\033[1;31m ------------------Name of Binary : \033[1;35m$(NAME)\033[0;31m®\033[1;31m Created Sucesfully ------------------\033[0m"
 
 clean:
-	make clean -C lib/my
+	make clean -C lib/
+	make clean -C tests/
 	$(RM) $(OBJS)
 
-
-fclean: clean
-	make fclean -C lib/my/
+fclean:	clean
+	make fclean -C lib/
+	make fclean -C tests/
 	$(RM) $(NAME)
 
+re:	fclean all
+re_game: fclean game
 
-re: fclean all
+
+%.o:	%.c
+	@ echo "\033[1;35m[ OK ]\033[0m Compiling" $<
+	@ $(CC) -o $@ -c $< $(CFLAGS)
+
+.SILENT:

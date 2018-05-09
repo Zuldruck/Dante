@@ -5,7 +5,7 @@
 ** (enter)
 */
 
-int my_array_len(char **array)
+int my_tab_len(const char **array)
 {
 	int i = 0;
 

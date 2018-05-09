@@ -19,6 +19,8 @@ char *int_to_str(int nb)
 		i++;
 	}
 	str = malloc(sizeof(char) * i + 1);
+	if (!str)
+		return (NULL);
 	j = i;
 	while (i > 0) {
 		str[i - 1] = nb % 10 + 48;
