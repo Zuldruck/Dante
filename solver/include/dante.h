@@ -25,7 +25,6 @@
 typedef struct tile_s {
 	bool close;
 	bool open;
-	bool limit;
 	bool blocked;
 	int g_cost;
 	int h_cost;
@@ -39,19 +38,17 @@ typedef struct list_s {
 } list_t;
 
 typedef struct maze_s {
-	tile_t *map;
-	list_t *open_list;
 	int width;
 	int height;
 	int size;
+	tile_t *map;
 } maze_t;
 
 char *parse_file(maze_t *maze, char *filepath);
 void start(char *map, maze_t *maze);
 tile_t *map_to_maze(char *map, int size);
-void add_node(maze_t *maze, list_t **list, list_t *tab, int pos);
-void remove_node(list_t **list, int pos);
-void a_star_loop(maze_t *maze, list_t *open_list, list_t *tab);
+void add_node(maze_t *maze, list_t **list, int pos);
+void a_star_loop(maze_t *maze, list_t *open_list);
 int compute_h_cost(maze_t *maze, int pos);
 void set_maze_path(char *map, maze_t *maze);
 

@@ -15,10 +15,6 @@ tile_t fill_tile_info(char c)
 		tile.blocked = 1;
 	else
 		tile.blocked = 0;
-	if (c == '\n')
-		tile.limit = true;
-	else
-		tile.limit = false;
 	tile.close = 0;
 	tile.open = 0;
 	tile.g_cost = -1;

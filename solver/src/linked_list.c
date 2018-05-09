@@ -7,12 +7,11 @@
 
 #include "dante.h"
 
-void add_node(maze_t *maze, list_t **list, list_t *tab, int pos)
+void add_node(maze_t *maze, list_t **list, int pos)
 {
-	list_t *tmp_node = NULL;
+	list_t *tmp_node = malloc(sizeof(*tmp_node));
 	list_t *tmp = *list;
 
-	tmp_node = &tab[pos];
 	tmp_node->pos = pos;
 	tmp_node->next = NULL;
 	if (!*list) {
@@ -24,24 +23,8 @@ void add_node(maze_t *maze, list_t **list, list_t *tab, int pos)
 		return;
 	}
 	while (tmp->next != NULL
-	&& maze->map[pos].f_cost > maze->map[tmp->next->pos].f_cost) {
+	&& maze->map[pos].f_cost > maze->map[tmp->next->pos].f_cost)
 		tmp = tmp->next;
-	}
 	tmp_node->next = tmp->next;
 	tmp->next = tmp_node;
-}
-
-void remove_node(list_t **list, int pos)
-{
-	list_t *tmp = *list;
-
-	if (!*list)
-		return;
-	if ((*list)->pos == pos) {
-		*list = (*list)->next;
-		return;
-	}
-	while (tmp->next->pos != pos)
-		tmp = tmp->next;
-	tmp->next = tmp->next->next;
 }
