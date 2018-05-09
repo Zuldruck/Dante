@@ -17,40 +17,42 @@
 #define MAZE_POS maze.map[LIST_X][LIST_Y]
 #define ABS(X) X < 0 ? -X : X
 
-typedef struct pos_s {
-	int x;
-	int y;
-} pos_t;
+#define NORTH(X) (X - maze->width - 1)
+#define SOUTH(X) (X + maze->width + 1)
+#define EAST(X) (X + 1)
+#define WEST(X) (X - 1)
 
 typedef struct tile_s {
 	bool close;
 	bool open;
+	bool limit;
 	bool blocked;
 	int g_cost;
 	int h_cost;
 	int f_cost;
-	pos_t parent;
+	int parent;
 } tile_t;
 
-typedef struct maze_s {
-	tile_t **map;
-	int width;
-	int height;
-} maze_t;
-
 typedef struct list_s {
-	pos_t pos;
+	int pos;
 	struct list_s *next;
 } list_t;
 
-char **parse_file(char *filepath);
-void start(char **map);
-maze_t map_to_maze(char **map);
-void add_node(list_t **list, pos_t pos);
-void remove_node(list_t **list, pos_t pos_to_remove);
-void a_star_loop(maze_t maze, list_t *open_list);
-list_t *find_smallest_open(list_t *open_list, maze_t maze);
-int compute_h_cost(maze_t *maze, pos_t pos);
-void set_maze_path(char **map, maze_t maze);
+typedef struct maze_s {
+	tile_t *map;
+	list_t *open_list;
+	int width;
+	int height;
+	int size;
+} maze_t;
+
+char *parse_file(maze_t *maze, char *filepath);
+void start(char *map, maze_t *maze);
+tile_t *map_to_maze(char *map, int size);
+void add_node(maze_t *maze, list_t **list, list_t *tab, int pos);
+void remove_node(list_t **list, int pos);
+void a_star_loop(maze_t *maze, list_t *open_list, list_t *tab);
+int compute_h_cost(maze_t *maze, int pos);
+void set_maze_path(char *map, maze_t *maze);
 
 #endif /* __DANTE__ */
