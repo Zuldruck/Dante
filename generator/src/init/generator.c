@@ -49,7 +49,6 @@ int set_generator(generator_t *generator, char **str)
 	memset(MAP, 'X', SIZE - 1);
 	for (int i = LEN_X; i != SIZE - 1; i += LEN_X + 1)
 		MAP[i] = '\n';
-	MAP[SIZE - 1] = 0;
 	TRACKER = malloc(sizeof(track_t) * (SIZE));
 	if (!TRACKER) {
 		free(MAP);

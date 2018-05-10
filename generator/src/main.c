@@ -17,7 +17,7 @@ int main(int ac, char **av)
 		return (84);
 	srand(time(NULL));
 	start_generator(&generator);
-	write(1, generator.map, generator.size);
+	write(1, generator.map, generator.size - 1);
 	destroy_generator(&generator);
 	return (0);
 }
