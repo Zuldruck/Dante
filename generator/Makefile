@@ -5,7 +5,12 @@
 ## all clean fclean re
 ##
 
-SRC	=	src/main.c						\
+SRC	=	src/main.c		\
+		src/init/generator.c	\
+		src/generator/start.c	\
+		src/generator/track.c	\
+		src/generator/path.c	\
+		src/generator/get.c	\
 
 OBJS	=	$(SRC:.c=.o)
 
@@ -17,20 +22,15 @@ NAME2	=	unit-tests
 
 CFLAGS	=	 -Wall -Wextra -W -g3 -I./include/
 
-LDFLAGS	=	-L./lib/llist/ -lllist -L./lib/my/ -lmy -lm
-
 CC	=	gcc
 
 _END=$'\x1b[0m'
 _RED=$'\x1b[31m'
 NO_OF_FILES := $(words $(SRC))
 
-all:	prepare_lib $(NAME)
+all:	$(NAME)
 
-prepare_lib:
-	make -C lib/
-
-tests_run:	prepare_lib
+tests_run:
 	make -C tests/
 	tests/unit-tests
 
@@ -41,12 +41,10 @@ $(NAME):	$(OBJS)
 	@ echo "\033[1;31m ------------------Name of Binary : \033[1;35m$(NAME)\033[0;31m®\033[1;31m Created Sucesfully ------------------\033[0m"
 
 clean:
-	make clean -C lib/
 	make clean -C tests/
 	$(RM) $(OBJS)
 
 fclean:	clean
-	make fclean -C lib/
 	make fclean -C tests/
 	$(RM) $(NAME)
 
