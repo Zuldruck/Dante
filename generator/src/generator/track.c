@@ -17,31 +17,25 @@
 void keep_end_track(track_t **track, generator_t *generator)
 {
 	if (INDEX == NORTH(END) || INDEX == NORTH(END) - 1) {
-			//printf("end south or diag from %d, tab %d || %d || %d || %d\n\n", INDEX, (*track)->pathes[0], (*track)->pathes[1], (*track)->pathes[2], (*track)->pathes[3]);
 		(*track)->valids[SOUTH] = false;
 		(*track)->nb_path--;
 		TRACKER[SOUTH(INDEX)].prev = *track;
 		*track = &TRACKER[SOUTH(INDEX)];
 		INDEX = SOUTH(INDEX);
 		set_track(*track, generator);
-			//printf("end south or diag to %d, tab %d || %d || %d || %d\n\n", INDEX, (*track)->pathes[0], (*track)->pathes[1], (*track)->pathes[2], (*track)->pathes[3]);
 	} else if (INDEX == WEST(END)) {
-			//printf("end west from %d, tab %d || %d || %d || %d\n\n", INDEX, (*track)->pathes[0], (*track)->pathes[1], (*track)->pathes[2], (*track)->pathes[3]);
 		(*track)->valids[EAST] = false;
 		(*track)->nb_path--;
 		TRACKER[EAST(INDEX)].prev = *track;
 		*track = &TRACKER[EAST(INDEX)];
 		INDEX = EAST(INDEX);
 		set_track(*track, generator);
-			//printf("end west to %d, tab %d || %d || %d || %d\n\n", INDEX, (*track)->pathes[0], (*track)->pathes[1], (*track)->pathes[2], (*track)->pathes[3]);
 	}
 }
 
 void reset_track(track_t *track, generator_t *generator)
 {
 	track->pos = INDEX;
-	//printf("before reset %d, nb %d, tab %d || %d || %d || %d\n", INDEX, track->nb_path, track->pathes[0], track->pathes[1], track->pathes[2], track->pathes[3]);
-	//printf("true tab %d || %d || %d || %d\n", track->valids[0], track->valids[1], track->valids[2], track->valids[3]);
 	track->nb_path = 0;
 	if (track->valids[NORTH] == true)
 		track->valids[NORTH] = check_valid_path(track,
@@ -55,8 +49,6 @@ void reset_track(track_t *track, generator_t *generator)
 	if (track->valids[WEST] == true)
 		track->valids[WEST] = check_valid_path(track,
 		WEST(INDEX), generator);
-	//printf("after reset %d, nb %d, tab %d || %d || %d || %d\n", INDEX, track->nb_path, track->pathes[0], track->pathes[1], track->pathes[2], track->pathes[3]);
-	//printf("true tab %d || %d || %d || %d\n", track->valids[0], track->valids[1], track->valids[2], track->valids[3]);
 }
 
 void backtrack(track_t **track, generator_t *generator)
