@@ -39,7 +39,7 @@ int set_generator(generator_t *generator, char **str)
 		return (84);
 	if (str[3]) {
 		if (strcmp(str[3], "perfect") == 0)
-			generator->perfect = 1;
+			generator->perfect = true;
 		else
 			return (84);
 	}
@@ -59,5 +59,5 @@ int set_generator(generator_t *generator, char **str)
 
 generator_t init_generator(void)
 {
-	return ((generator_t){(vector_t){0, 0}, 0, 0, 0, NULL, NULL});
+	return ((generator_t){(vector_t){0, 0}, 0, 0, false, NULL, NULL});
 }

@@ -58,7 +58,8 @@ typedef struct track_s
 {
 	int pos;
 	int nb_path;
-	bool pathes[4];
+	int pathes[4];
+	bool valids[4];
 	track_t *prev;
 } track_t;
 
@@ -83,5 +84,6 @@ bool check_valid_path(track_t *track, int next_pos, generator_t *generator);
 void get_next_pos(track_t **track, generator_t *generator);
 void backtrack(track_t **track, generator_t *generator);
 void keep_end_track(track_t **track, generator_t *generator);
+bool check_outside_pos(int pos, generator_t *generator);
 
 #endif /* GENERATOR_H_ */

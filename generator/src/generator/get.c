@@ -9,16 +9,14 @@
 
 int get_direction(int pos, int next_pos, generator_t *generator)
 {
-	switch (next_pos) {
-		case NORTH:
-		return (NORTH(pos));
-		case SOUTH:
-		return (SOUTH(pos));
-		case EAST:
-		return (EAST(pos));
-		case WEST:
-		return (WEST(pos));
-	}
+	if (pos == NORTH(next_pos))
+		return (SOUTH);
+	if (pos == SOUTH(next_pos))
+		return (NORTH);
+	if (pos == EAST(next_pos))
+		return (WEST);
+	if (pos == WEST(next_pos))
+		return (EAST);
 	return (0);
 }
 
@@ -26,22 +24,18 @@ int get_direction(int pos, int next_pos, generator_t *generator)
 
 void get_next_pos(track_t **track, generator_t *generator)
 {
-	int next_pos = 3;
-	int random = 3 - rand() % (*track)->nb_path;
-	int directions[4] = {0, 0, 0, 0};
+	int index = rand() % (*track)->nb_path;
+	int next_pos = (*track)->pathes[index];
 
-	for (int i = 4; i; i--) {
-		if ((*track)->pathes[i - 1] == true) {
-			directions[next_pos] = i - 1;
-			next_pos--;
-		}
-	}
+	//printf("pos = %d\n\t nb_path = %d index = %d\n\tnext_pos = %d\n\t\t tab = %d || %d || %d || %d\n", INDEX, (*track)->nb_path, index, next_pos, (*track)->pathes[0], (*track)->pathes[1], (*track)->pathes[2], (*track)->pathes[3]);
 	(*track)->nb_path--;
-	(*track)->pathes[directions[random]] = false;
-	directions[0] = get_direction((*track)->pos,
-	directions[random], generator);
-	TRACKER[directions[0]].prev = *track;
-	*track = &TRACKER[directions[0]];
-	INDEX = directions[0];
+	(*track)->valids[get_direction((*track)->pos,
+					next_pos, generator)] = false;
+	TRACKER[next_pos].prev = *track;
+	for (int i = index; i != 2; i++)
+		(*track)->pathes[i] = (*track)->pathes[i + 1];
+		//printf("\tnb_path = %d tab = %d || %d || %d || %d\n", (*track)->nb_path, (*track)->pathes[0], (*track)->pathes[1], (*track)->pathes[2], (*track)->pathes[3]);
+	*track = &TRACKER[next_pos];
+	INDEX = next_pos;
 	set_track(*track, generator);
 }
