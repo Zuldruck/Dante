@@ -20,7 +20,7 @@ NAME	=	generator
 
 NAME2	=	unit-tests
 
-CFLAGS	=	 -Wall -Wextra -W -g3 -I./include/ -pg
+CFLAGS	=	 -Wall -Wextra -W -I./include/
 
 CC	=	gcc
 

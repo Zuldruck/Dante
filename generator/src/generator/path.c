@@ -40,6 +40,7 @@ bool check_valid_path(track_t *track, int next_pos, generator_t *generator)
 	if (WEST(next_pos) != track->pos
 	&& check_valid_pos(WEST(next_pos), generator) == false)
 		return (false);
+	track->pathes[track->nb_path] = next_pos;
 	track->nb_path++;
 	return (true);
 }
