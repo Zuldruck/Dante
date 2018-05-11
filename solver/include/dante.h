@@ -14,7 +14,6 @@
 
 #define LIST_X open_list->pos.x
 #define LIST_Y open_list->pos.y
-#define MAZE_POS maze.map[LIST_X][LIST_Y]
 #define ABS(X) X < 0 ? -X : X
 
 #define NORTH(X) (X - maze->width - 1)
@@ -27,7 +26,6 @@ typedef struct tile_s {
 	bool open;
 	bool blocked;
 	int g_cost;
-	int h_cost;
 	int f_cost;
 	int parent;
 } tile_t;

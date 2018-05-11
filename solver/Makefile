@@ -9,13 +9,12 @@ SRC	= 	src/main.c		\
 		src/parsing.c		\
 		src/linked_list.c	\
 		src/init_a_star.c	\
-		src/map_to_maze.c	\
 		src/a_star.c		\
 		src/a_star_utils.c	\
 
 OBJ	=	$(SRC:.c=.o)
 
-CC	= 	gcc -Wextra -Wall -Werror -g3 -no-pie
+CC	= 	gcc -Wextra -Wall -Ofast
 
 NAME	=	solver
 

@@ -17,7 +17,6 @@ void set_open_costs(maze_t *maze, list_t **open_list, int pos, int parent)
 	if (maze->map[pos].f_cost < 0 || f_cost < maze->map[pos].f_cost) {
 		maze->map[pos].parent = parent;
 		maze->map[pos].g_cost = g_cost;
-		maze->map[pos].h_cost = h_cost;
 		maze->map[pos].f_cost = f_cost;
 	}
 	if (!maze->map[pos].open) {
@@ -47,11 +46,8 @@ void a_star_loop(maze_t *maze, list_t *open_list)
 	list_t *open = NULL;
 	int last_char = maze->size - 1;
 
-	while (!maze->map[WEST(last_char)].close
-	&& !maze->map[NORTH(last_char)].close) {
-		open = open_list;
-		if (!open)
-			break;
+	for (open = open_list; !maze->map[WEST(last_char)].close
+	&& !maze->map[NORTH(last_char)].close && open; open = open_list) {
 		open_list = open_list->next;
 		add_sides_to_open_list(maze, &open_list, open->pos);
 		maze->map[open->pos].close = true;

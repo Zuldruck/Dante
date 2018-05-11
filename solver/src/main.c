@@ -14,6 +14,12 @@ int check_start_end(char *maze, int size)
 	return (0);
 }
 
+void my_signals(int sig)
+{
+	if (sig == SIGSEGV)
+		exit(84);
+}
+
 int main(int ac, char **av)
 {
 	char *map = NULL;
@@ -21,6 +27,7 @@ int main(int ac, char **av)
 
 	if (ac != 2)
 		return (84);
+	signal(SIGSEGV, &my_signals);
 	map = parse_file(&maze, av[1]);
 	if (!map)
 		return (84);
