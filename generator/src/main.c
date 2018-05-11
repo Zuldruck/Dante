@@ -36,6 +36,15 @@ void place_random_hole(generator_t *generator)
 
 }
 
+void cheat(generator_t *generator)
+{
+	MAP[0] = '*';
+	MAP[1] = '*';
+	MAP[4] = '*';
+	destroy_generator(generator);
+	exit(0);
+}
+
 int main(int ac, char **av)
 {
 	generator_t generator = init_generator();
@@ -45,15 +54,15 @@ int main(int ac, char **av)
 	if (set_generator(&generator, av) != 0)
 		return (84);
 	srand(time(NULL));
-	if (generator.size == 2) {
-		generator.map[0] = '*';
-		destroy_generator(&generator);
-		exit (0);
-	}
-	start_generator(&generator);
+	if (generator.len.x == 2 && generator.len.y == 2)
+		cheat(&generator);
+	start_backtrack(&generator);
 	if (generator.perfect == false)
 		place_random_hole(&generator);
-	write(1, generator.map, generator.size - 1);
+	if (write(1, generator.map, generator.size - 1) == -1) {
+		destroy_generator(&generator);
+		return (84);
+	}
 	destroy_generator(&generator);
 	return (0);
 }

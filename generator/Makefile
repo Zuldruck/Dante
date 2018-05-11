@@ -7,10 +7,9 @@
 
 SRC	=	src/main.c		\
 		src/init/generator.c	\
-		src/generator/start.c	\
-		src/generator/track.c	\
-		src/generator/path.c	\
-		src/generator/get.c	\
+		src/generator/backtrack/start.c	\
+		src/generator/backtrack/track.c	\
+		src/generator/backtrack/path.c	\
 
 OBJS	=	$(SRC:.c=.o)
 
@@ -20,7 +19,7 @@ NAME	=	generator
 
 NAME2	=	unit-tests
 
-CFLAGS	=	 -Wall -Wextra -W -I./include/
+CFLAGS	=	 -Wall -Wextra -W -I./include/ -Ofast
 
 CC	=	gcc
 

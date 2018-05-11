@@ -27,6 +27,11 @@
 #define EAST(x) (x + 1)
 #define WEST(x) (x - 1)
 
+#define DNORTH(x) (x - 2 * LEN_X - 2)
+#define DSOUTH(x) (x + 2 * LEN_X + 2)
+#define DEAST(x) (x + 2)
+#define DWEST(x) (x - 2)
+
 #define LEN_X generator->len.x
 #define LEN_Y generator->len.y
 #define SIZE generator->size
@@ -59,7 +64,6 @@ typedef struct track_s
 	int pos;
 	int nb_path;
 	int pathes[4];
-	bool valids[4];
 	track_t *prev;
 } track_t;
 
@@ -85,5 +89,11 @@ void get_next_pos(track_t **track, generator_t *generator);
 void backtrack(track_t **track, generator_t *generator);
 void keep_end_track(track_t **track, generator_t *generator);
 bool check_outside_pos(int pos, generator_t *generator);
+void start_backtrack(generator_t *generator);
+void set_double_track(track_t *track, generator_t *generator);
+void double_backtrack(track_t **track, generator_t *generator);
+bool check_double_valid_path(track_t *track, int next_pos, int double_next_pos,
+				generator_t *generator);
+void set_track_values(track_t *track, generator_t *generator);
 
 #endif /* GENERATOR_H_ */

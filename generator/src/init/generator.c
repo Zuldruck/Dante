@@ -27,7 +27,7 @@ int get_len(generator_t *generator, char *len_x, char *len_y)
 		return (84);
 	LEN_X = atoi(len_x);
 	LEN_Y = atoi(len_y);
-	if (LEN_X <= 0 || LEN_Y <= 0)
+	if (LEN_X <= 0 || LEN_Y <= 0 || (LEN_X == 1 && LEN_Y == 1))
 		return (84);
 	SIZE = (LEN_X + 1) * LEN_Y;
 	return (0);
