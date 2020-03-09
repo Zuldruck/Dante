@@ -27,7 +27,7 @@ tile_t *map_to_maze(char *map, int size)
 {
 	tile_t *maze = NULL;
 
-	maze = malloc(sizeof(*maze) * size);
+	maze = malloc(sizeof(*maze) * (size + 1));
 	for (unsigned int i = size; i > 0; --i)
 		maze[i] = fill_tile_info(map[i]);
 	return (maze);
@@ -39,6 +39,11 @@ void start(char *map, maze_t *maze)
 
 	maze->map = map_to_maze(map, maze->size);
 	maze->map[0].open = 1;
+	maze->map[0].close = 0;
+	maze->map[0].g_cost = 0;
+	maze->map[0].f_cost = -1;
+	maze->map[0].parent = 0;
+	maze->map[0].blocked = 0;
 	open_list = malloc(sizeof(*open_list));
 	open_list->pos = 0;
 	open_list->next = NULL;

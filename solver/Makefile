@@ -14,7 +14,7 @@ SRC	= 	src/main.c		\
 
 OBJ	=	$(SRC:.c=.o)
 
-CC	= 	gcc -Wextra -Wall -Ofast
+CC	= 	gcc -g3 -Wextra -Wall -Ofast
 
 NAME	=	solver
 
